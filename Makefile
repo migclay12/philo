@@ -19,8 +19,11 @@ $(NAME): $(OBJS)
 	@echo "Compiling $<..."
 	@gcc $(FLAGS) -c $< -o $@
 
-exe: all
-	@./$(NAME) 5 800 200 200 7
+exe: all 
+	@./$(NAME) 5 800 200 200 2
+
+leak: all
+	valgrind --leak-check=full ./$(NAME) 5 800 200 200 2
 
 clean:
 	@$(RM) $(OBJS)

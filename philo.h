@@ -21,9 +21,11 @@
 # include <sys/time.h>
 # include <limits.h>
 
-# define FORKS	"\033[0;36m has taken a fork\033[0m"
+//Change forks like in subject
+# define FORK_L	"\033[0;36m has taken left fork\033[0m"
+# define FORK_R	"\033[0;36m has taken right fork\033[0m"
 # define THINK	"\033[0;35m is thinking\033[0m"
-# define SLEEP	"\033[0;34m is sleeping\033[0m"
+# define SLEEP	"\033[0;33m is sleeping\033[0m"
 # define EAT	"\033[0;32m is eating\033[0m"
 # define DIE	"\033[0;31m died\033[0m"
 
@@ -39,38 +41,47 @@ typedef enum e_philo_state
 
 typedef struct s_philo
 {
-	int			id;
-	int			eat_count;
-	int			last_eat;
-	int			left_fork;
-	int			right_fork;
-	t_state		state;
+	int				id;
+	int				eat_count;
+	int				last_eat;
+	int				left_fork;
+	int				right_fork;
+	t_state			state;
+	pthread_t		thread;
+	pthread_mutex_t	mutex_time;
+	struct s_info	*data;
 	//t_info	*info;
 }	t_philo;
 
 typedef struct s_info
 {
-	int		n_philos;
-	int		t_die;
-	int		t_eat;
-	int		t_sleep;
-	int		n_eat;
-	long	start;
-	int		death;
-	int		n_end_eat;
-	//pthread_t		hilo; ??
-	t_philo	*philo;
+	int				n_philos;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				n_eat;
+	long			start;
+	int				death;
+	int				n_end_eat;
+	pthread_mutex_t	*mutex_fork;
+	t_philo			*philo;
 }	t_info;
 
-int	general_info(t_info *data, char **argv);
+//int	general_info(t_info *data, char **argv);
+int	general_info(t_info *info, t_philo *philo, char **argv);
 int ft_error(char *str);
+void *philo_life(void *data);
 
 //Utils
+void ft_usleep(int ms);
 long long	get_time(void);
+void		print_message(char *str, t_philo *philo, t_info *info);
+void	delayer(t_philo *philo, t_info *info);
 
 //Functions
 void	*ft_memset(void *b, int c, size_t len);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
+
 
 #endif

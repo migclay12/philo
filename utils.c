@@ -11,6 +11,37 @@
 /* ************************************************************************** */
 
 #include "philo.h"
+
+long	time_dif(t_info *info)
+{
+	long	present;
+
+	present = get_time();
+	return (present - info->start);
+}
+
+void	print_message(char *str, t_philo *philo, t_info *info)
+{
+	/* long	present;
+
+	present = get_time() - info->start; */
+	//printf("MESSAGE\n");
+	printf("%ldms  %d %s\n", time_dif(info), philo->id, str);
+}
+
+void	delayer(t_philo *philo, t_info *info)
+{
+	int	time_left;
+
+	time_left = 0;
+	time_left = info->t_die
+		- (time_dif(info) - philo->last_eat);
+	time_left /= 2;
+	if (time_left > info->t_die || time_left > 1000)
+		return ;
+	usleep(time_left);
+}
+
 //gets the seconds and then adds the miliseconds (usec)
 long long	get_time(void)
 {
@@ -22,12 +53,12 @@ long long	get_time(void)
 
 void ft_usleep(int ms)
 {
-    long long start_time;
-    long long end_time;
+	long long start_time;
+	long long end_time;
 
 	start_time = get_time();
 	end_time = start_time + ms;
-    while (get_time() < end_time) {
-        usleep(1000); // Sleep for 1 millisecond (1000 microseconds)
-    }
+	while (get_time() < end_time) {
+		usleep(1000); // Sleep for 1 millisecond (1000 microseconds)
+	}
 }

@@ -37,54 +37,89 @@ int check_input(char **argv)
 	return (0);
 }
 
-void	philo_info(t_info *data)
+/* int	philo_info(t_info *info, t_philo *philo)
 {
 	int i;
 
 	i = 0;
-	while (i < data->n_philos)
+	while (i < info->n_philos)
 	{
-		data->philo[i].id = i + 1;
-		data->philo[i].eat_count = 0;
-		data->philo[i].last_eat = 0;
-		data->philo[i].left_fork = i;
-		data->philo[i].right_fork = (i + 1) % data->n_philos;
-		data->philo[i].state = IDLE;
+		philo[i].data = info;
+		philo[i].id = i + 1;
+		philo[i].eat_count = 0;
+		philo[i].last_eat = 0;
+		philo[i].left_fork = i;
+		philo[i].right_fork = (i + 1) % info->n_philos;
+		philo[i].state = IDLE;
+		if (pthread_mutex_init(&info->mutex_fork[i], NULL))
+			return (1);
+		if (pthread_mutex_init(&philo->mutex_time, NULL))
+			return (1);
 		i++;
 	}
+	return (0);
+} */
+
+int	philo_info(t_info *info)
+{
+	int i;
+
+	i = 0;
+	while (i < info->n_philos)
+	{
+		info->philo[i].data = info;
+		info->philo[i].id = i + 1;
+		info->philo[i].eat_count = 0;
+		info->philo[i].last_eat = 0;
+		info->philo[i].left_fork = i;
+		info->philo[i].right_fork = (i + 1) % info->n_philos;
+		info->philo[i].state = IDLE;
+		if (pthread_mutex_init(&info->mutex_fork[i], NULL))
+			return (1);
+		if (pthread_mutex_init(&info->philo[i].mutex_time, NULL))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-int	general_info(t_info *data, char **argv)
+int	general_info(t_info *info, t_philo *philo, char **argv)
 {
+	(void)philo;
 	if (check_input(argv) == 1)
 		return (1);
-	data->n_philos = ft_atoi(argv[1]);
-	data->t_die = ft_atoi(argv[2]);
-	data->t_eat = ft_atoi(argv[3]);
-	data->t_sleep = ft_atoi(argv[4]);
-	data->death = 0;
-	data->n_end_eat = 0;
-	//Check if all this is accurate
-	if (data->n_philos < 1 || data->n_philos > 200 || data->t_die < 60
-		|| data->t_eat < 60 || data->t_sleep < 60)
+	info->n_philos = ft_atoi(argv[1]);
+	info->t_die = ft_atoi(argv[2]);
+	info->t_eat = ft_atoi(argv[3]);
+	info->t_sleep = ft_atoi(argv[4]);
+	info->death = 0;
+	info->n_end_eat = 0;
+	//Check if all this is accurate -- I think it is
+	if (info->n_philos < 1 || info->n_philos > 200 || info->t_die < 60
+		|| info->t_eat < 60 || info->t_sleep < 60)
 		return (1);
 	if (argv[5])
 	{
-		data->n_eat = ft_atoi(argv[5]);
-		if (data->n_eat <= 0)
+		info->n_eat = ft_atoi(argv[5]);
+		if (info->n_eat <= 0)
 			return (1);
 	}
 	else
-		data->n_eat = -1;
-	data->philo = malloc(sizeof(t_philo) * data->n_philos);
-	if (data->philo == NULL)
+		info->n_eat = -1;
+	info->philo = malloc(sizeof(t_philo) * info->n_philos);
+	if (info->philo == NULL)
 		return (1);
-	philo_info(data);
-	// printf("%d\n", data->n_philos);
-	// printf("%d\n", data->t_die);
-	// printf("%d\n", data->t_eat);
-	// printf("%d\n", data->t_sleep);
-	// printf("%d\n", data->n_eat);
+	info->mutex_fork = (pthread_mutex_t *)malloc(info->n_philos
+			* sizeof(pthread_mutex_t));
+	if (info->mutex_fork == NULL)
+		return (1);
+	if (philo_info(info) == 1)
+		return(1);
+	printf("%d\n", info->n_philos);
+	printf("%d\n", info->t_die);
+	printf("%d\n", info->t_eat);
+	printf("%d\n", info->t_sleep);
+	printf("%d\n", info->n_eat);
 	return (0);
 	
 }
