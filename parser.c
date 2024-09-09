@@ -12,10 +12,10 @@
 
 #include "philo.h"
 
-int check_input(char **argv)
+int	check_input(char **argv)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 1;
 	while (argv[i])
@@ -29,60 +29,51 @@ int check_input(char **argv)
 				ft_error("Argument is invlaid");
 				return (1);
 			}
-				
 			j++;
 		}
 		i++;
 	}
 	return (0);
 }
-
-/* int	philo_info(t_info *info, t_philo *philo)
+//Compress all the ifs?
+int	philo_info(t_info *info, t_philo *philo)
 {
-	int i;
+	(void)philo;
+	int	i;
 
 	i = 0;
 	while (i < info->n_philos)
 	{
-		philo[i].data = info;
-		philo[i].id = i + 1;
-		philo[i].eat_count = 0;
-		philo[i].last_eat = 0;
-		philo[i].left_fork = i;
-		philo[i].right_fork = (i + 1) % info->n_philos;
-		philo[i].state = IDLE;
-		if (pthread_mutex_init(&info->mutex_fork[i], NULL))
-			return (1);
-		if (pthread_mutex_init(&philo->mutex_time, NULL))
-			return (1);
-		i++;
-	}
-	return (0);
-} */
-
-int	philo_info(t_info *info)
-{
-	int i;
-
-	i = 0;
-	while (i < info->n_philos)
-	{
+		//philo[i].data = info;
+		//philo[i].id = i + 1;
+		//philo[i].eat_count = 0;
+		//philo[i].last_eat = 0;
+		//philo[i].left_fork = i;
+		//philo[i].right_fork = (i + 1) % info->n_philos;
+		//philo[i].state = IDLE;
 		info->philo[i].data = info;
 		info->philo[i].id = i + 1;
+		printf("IDDDDDDDDDDDDDD: %d\n", info->philo[i].id);
 		info->philo[i].eat_count = 0;
 		info->philo[i].last_eat = 0;
 		info->philo[i].left_fork = i;
 		info->philo[i].right_fork = (i + 1) % info->n_philos;
 		info->philo[i].state = IDLE;
+		//info->philo[i].death = 0;
 		if (pthread_mutex_init(&info->mutex_fork[i], NULL))
 			return (1);
 		if (pthread_mutex_init(&info->philo[i].mutex_time, NULL))
+			return (1);
+		if (pthread_mutex_init(&info->mutex_dead, NULL))
+			return (1);
+		if (pthread_mutex_init(&info->mutex_end_eat, NULL))
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
+//If philo not being used take it off
 int	general_info(t_info *info, t_philo *philo, char **argv)
 {
 	(void)philo;
@@ -113,13 +104,13 @@ int	general_info(t_info *info, t_philo *philo, char **argv)
 			* sizeof(pthread_mutex_t));
 	if (info->mutex_fork == NULL)
 		return (1);
-	if (philo_info(info) == 1)
-		return(1);
-	printf("%d\n", info->n_philos);
+	if (philo_info(info, philo) == 1)
+		return (1);
+	return (0);
+}
+
+/* 	printf("%d\n", info->n_philos);
 	printf("%d\n", info->t_die);
 	printf("%d\n", info->t_eat);
 	printf("%d\n", info->t_sleep);
-	printf("%d\n", info->n_eat);
-	return (0);
-	
-}
+	printf("%d\n", info->n_eat); */

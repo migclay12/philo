@@ -20,6 +20,7 @@
 # include <stdbool.h>
 # include <sys/time.h>
 # include <limits.h>
+# include <string.h>
 
 //Change forks like in subject
 # define FORK_L	"\033[0;36m has taken left fork\033[0m"
@@ -61,27 +62,34 @@ typedef struct s_info
 	int				t_sleep;
 	int				n_eat;
 	long			start;
-	int				death;
 	int				n_end_eat;
+	int				death;
 	pthread_mutex_t	*mutex_fork;
+	pthread_mutex_t	mutex_dead;
+	pthread_mutex_t	mutex_end_eat;
 	t_philo			*philo;
 }	t_info;
 
 //int	general_info(t_info *data, char **argv);
-int	general_info(t_info *info, t_philo *philo, char **argv);
-int ft_error(char *str);
-void *philo_life(void *data);
+int			general_info(t_info *info, t_philo *philo, char **argv);
+int			ft_error(char *str);
+void		*philo_life(void *data);
+int			stop_eat(t_philo *philo, t_info *info);
+int			philo_full(t_philo *philo, t_info *info);
 
 //Utils
-void ft_usleep(int ms);
+void		ft_usleep(int ms);
 long long	get_time(void);
 void		print_message(char *str, t_philo *philo, t_info *info);
-void	delayer(t_philo *philo, t_info *info);
+void		delayer(t_philo *philo, t_info *info);
+long		time_dif(t_info *info);
 
 //Functions
-void	*ft_memset(void *b, int c, size_t len);
-int		ft_atoi(const char *str);
-int		ft_isdigit(int c);
+void		*ft_memset(void *b, int c, size_t len);
+int			ft_atoi(const char *str);
+int			ft_isdigit(int c);
 
+//Dead
+void	am_i_dead(t_philo *philo, t_info *info);
 
 #endif

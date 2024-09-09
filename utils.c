@@ -16,17 +16,18 @@ long	time_dif(t_info *info)
 {
 	long	present;
 
+
 	present = get_time();
+	//return (present - 0);
+	printf("STAAAAAAAAAAAART: %ld\n", info->start);
 	return (present - info->start);
 }
 
 void	print_message(char *str, t_philo *philo, t_info *info)
 {
-	/* long	present;
-
-	present = get_time() - info->start; */
-	//printf("MESSAGE\n");
+	printf("BEFORE MESSAGE\n");
 	printf("%ldms  %d %s\n", time_dif(info), philo->id, str);
+	printf("AFTER MESSAGE\n");
 }
 
 void	delayer(t_philo *philo, t_info *info)
@@ -51,14 +52,16 @@ long long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-void ft_usleep(int ms)
+// Sleep for 1 millisecond (1000 microseconds)
+void	ft_usleep(int ms)
 {
-	long long start_time;
-	long long end_time;
+	long long	start_time;
+	long long	end_time;
 
 	start_time = get_time();
 	end_time = start_time + ms;
-	while (get_time() < end_time) {
-		usleep(1000); // Sleep for 1 millisecond (1000 microseconds)
+	while (get_time() < end_time)
+	{
+		usleep(1000);
 	}
 }
