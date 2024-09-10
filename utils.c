@@ -12,22 +12,22 @@
 
 #include "philo.h"
 
-long	time_dif(t_info *info)
+long time_dif(t_info *info)
 {
 	long	present;
 
 
 	present = get_time();
 	//return (present - 0);
-	printf("STAAAAAAAAAAAART: %ld\n", info->start);
+	//printf("STAAAAAAAAAAAART: %ld\n", info->start);
 	return (present - info->start);
 }
 
 void	print_message(char *str, t_philo *philo, t_info *info)
 {
-	printf("BEFORE MESSAGE\n");
+	//printf("BEFORE MESSAGE\n");
 	printf("%ldms  %d %s\n", time_dif(info), philo->id, str);
-	printf("AFTER MESSAGE\n");
+	//printf("AFTER MESSAGE\n");
 }
 
 void	delayer(t_philo *philo, t_info *info)

@@ -52,7 +52,10 @@ int	main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 		ft_error("Not enough arguments");
 	if (general_info(&info, &philo, argv) == 1)
+	{
 		ft_error("At least one argument is wrong");
+		return (1);
+	}
 	info.start = get_time();
 	i = 0;
 	while (i < info.n_philos)
@@ -62,7 +65,7 @@ int	main(int argc, char **argv)
 			return (0);
 		i++;
 	}
-	am_i_dead(&philo, &info);
+	am_i_dead(info.philo, &info);
 	i = 0;
 	while (i < info.n_philos)
 	{

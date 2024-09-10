@@ -23,8 +23,8 @@
 # include <string.h>
 
 //Change forks like in subject
-# define FORK_L	"\033[0;36m has taken left fork\033[0m"
-# define FORK_R	"\033[0;36m has taken right fork\033[0m"
+# define FORK	"\033[0;36m has taken a fork\033[0m"
+//# define FORK_R	"\033[0;36m has taken right fork\033[0m"
 # define THINK	"\033[0;35m is thinking\033[0m"
 # define SLEEP	"\033[0;33m is sleeping\033[0m"
 # define EAT	"\033[0;32m is eating\033[0m"
