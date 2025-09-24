@@ -1,6 +1,5 @@
 # 🍴 Dining Philosophers Problem
 
-![Build Status](https://github.com/tu-usuario/philo/workflows/CI/badge.svg)
 ![License](https://img.shields.io/badge/license-42-blue.svg)
 ![C](https://img.shields.io/badge/C-99-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey.svg)
