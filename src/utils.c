@@ -12,38 +12,24 @@
 
 #include "philo.h"
 
-long time_dif(t_info *info)
+long	time_dif(t_info *info)
 {
 	long	present;
 
-
 	present = get_time();
-	//return (present - 0);
-	//printf("STAAAAAAAAAAAART: %ld\n", info->start);
 	return (present - info->start);
 }
 
 void	print_message(char *str, t_philo *philo, t_info *info)
 {
-	//printf("BEFORE MESSAGE\n");
-	printf("%ldms  %d %s\n", time_dif(info), philo->id, str);
-	//printf("AFTER MESSAGE\n");
+	pthread_mutex_lock(&info->mutex_write);
+	pthread_mutex_lock(&info->mutex_dead);
+	if (info->death == 0)
+		printf("%ldms  %d %s\n", time_dif(info), philo->id, str);
+	pthread_mutex_unlock(&info->mutex_dead);
+	pthread_mutex_unlock(&info->mutex_write);
 }
 
-void	delayer(t_philo *philo, t_info *info)
-{
-	int	time_left;
-
-	time_left = 0;
-	time_left = info->t_die
-		- (time_dif(info) - philo->last_eat);
-	time_left /= 2;
-	if (time_left > info->t_die || time_left > 1000)
-		return ;
-	usleep(time_left);
-}
-
-//gets the seconds and then adds the miliseconds (usec)
 long long	get_time(void)
 {
 	struct timeval	time;
@@ -52,7 +38,6 @@ long long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-// Sleep for 1 millisecond (1000 microseconds)
 void	ft_usleep(int ms)
 {
 	long long	start_time;
@@ -61,7 +46,5 @@ void	ft_usleep(int ms)
 	start_time = get_time();
 	end_time = start_time + ms;
 	while (get_time() < end_time)
-	{
-		usleep(1000);
-	}
+		usleep(50);
 }

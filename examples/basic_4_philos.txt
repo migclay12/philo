@@ -1,0 +1,13 @@
+# Ejemplo básico con 4 filósofos
+# Uso: ./philo 4 410 200 200
+# Tiempo para morir: 410ms
+# Tiempo para comer: 200ms
+# Tiempo para dormir: 200ms
+
+4 410 200 200
+
+# Descripción:
+# - 4 filósofos competirán por 4 tenedores
+# - Cada filósofo necesita 2 tenedores para comer
+# - Sin límite de comidas (continuarán indefinidamente)
+# - Los filósofos morirán si pasan 410ms sin comer

@@ -1,0 +1,13 @@
+# Filósofos rápidos (tiempos cortos)
+# Uso: ./philo 5 100 50 50
+# Tiempo para morir: 100ms
+# Tiempo para comer: 50ms
+# Tiempo para dormir: 50ms
+
+5 100 50 50
+
+# Descripción:
+# - Simulación rápida con tiempos cortos
+# - 5 filósofos con timing agresivo
+# - Ideal para probar race conditions
+# - Puede causar inanición más fácilmente

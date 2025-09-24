@@ -25,8 +25,7 @@ int	check_input(char **argv)
 		{
 			if (ft_isdigit(argv[i][j]) == 0)
 			{
-				printf("%s\n", argv[i]);
-				ft_error("Argument is invlaid");
+				printf("%s argument is invlaid\n", argv[i]);
 				return (1);
 			}
 			j++;
@@ -35,10 +34,9 @@ int	check_input(char **argv)
 	}
 	return (0);
 }
-//Compress all the ifs?
-int	philo_info(t_info *info, t_philo *philo)
+
+int	philo_info(t_info *info)
 {
-	(void)philo;
 	int	i;
 
 	i = 0;
@@ -46,7 +44,6 @@ int	philo_info(t_info *info, t_philo *philo)
 	{
 		info->philo[i].data = info;
 		info->philo[i].id = i + 1;
-		//printf("IDDDDDDDDDDDDDD: %d\n", info->philo[i].id);
 		info->philo[i].eat_count = 0;
 		info->philo[i].last_eat = 0;
 		info->philo[i].left_fork = i;
@@ -60,24 +57,21 @@ int	philo_info(t_info *info, t_philo *philo)
 			return (1);
 		if (pthread_mutex_init(&info->mutex_end_eat, NULL))
 			return (1);
+		if (pthread_mutex_init(&info->mutex_write, NULL))
+			return (1);
 		i++;
 	}
 	return (0);
 }
 
-//If philo not being used take it off
-int	general_info(t_info *info, t_philo *philo, char **argv)
+int	save_info(t_info *info, char **argv)
 {
-	(void)philo;
-	if (check_input(argv) == 1)
-		return (1);
 	info->n_philos = ft_atoi(argv[1]);
 	info->t_die = ft_atoi(argv[2]);
 	info->t_eat = ft_atoi(argv[3]);
 	info->t_sleep = ft_atoi(argv[4]);
 	info->death = 0;
 	info->n_end_eat = 0;
-	//Check if all this is accurate -- I think it is
 	if (info->n_philos < 1 || info->n_philos > 200 || info->t_die < 60
 		|| info->t_eat < 60 || info->t_sleep < 60)
 		return (1);
@@ -89,6 +83,15 @@ int	general_info(t_info *info, t_philo *philo, char **argv)
 	}
 	else
 		info->n_eat = -1;
+	return (0);
+}
+
+int	general_info(t_info *info, char **argv)
+{
+	if (check_input(argv) == 1)
+		return (1);
+	if (save_info(info, argv) == 1)
+		return (1);
 	info->philo = malloc(sizeof(t_philo) * info->n_philos);
 	if (info->philo == NULL)
 		return (1);
@@ -96,13 +99,7 @@ int	general_info(t_info *info, t_philo *philo, char **argv)
 			* sizeof(pthread_mutex_t));
 	if (info->mutex_fork == NULL)
 		return (1);
-	if (philo_info(info, philo) == 1)
+	if (philo_info(info) == 1)
 		return (1);
 	return (0);
 }
-
-/* 	printf("%d\n", info->n_philos);
-	printf("%d\n", info->t_die);
-	printf("%d\n", info->t_eat);
-	printf("%d\n", info->t_sleep);
-	printf("%d\n", info->n_eat); */

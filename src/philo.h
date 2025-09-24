@@ -22,9 +22,7 @@
 # include <limits.h>
 # include <string.h>
 
-//Change forks like in subject
 # define FORK	"\033[0;36m has taken a fork\033[0m"
-//# define FORK_R	"\033[0;36m has taken right fork\033[0m"
 # define THINK	"\033[0;35m is thinking\033[0m"
 # define SLEEP	"\033[0;33m is sleeping\033[0m"
 # define EAT	"\033[0;32m is eating\033[0m"
@@ -34,10 +32,10 @@ typedef enum e_philo_state
 {
 	IDLE = 0,
 	EATING = 1,
-	SLEEPING = 2,
-	THINKING = 3,
-	DEAD = 4,
-	FULL = 5,
+	// SLEEPING = 2,
+	// THINKING = 3,
+	// DEAD = 4,
+	// FULL = 5,
 }	t_state;
 
 typedef struct s_philo
@@ -51,7 +49,6 @@ typedef struct s_philo
 	pthread_t		thread;
 	pthread_mutex_t	mutex_time;
 	struct s_info	*data;
-	//t_info	*info;
 }	t_philo;
 
 typedef struct s_info
@@ -67,21 +64,19 @@ typedef struct s_info
 	pthread_mutex_t	*mutex_fork;
 	pthread_mutex_t	mutex_dead;
 	pthread_mutex_t	mutex_end_eat;
+	pthread_mutex_t	mutex_write;
 	t_philo			*philo;
 }	t_info;
 
-//int	general_info(t_info *data, char **argv);
-int			general_info(t_info *info, t_philo *philo, char **argv);
-int			ft_error(char *str);
+int			general_info(t_info *info, char **argv);
 void		*philo_life(void *data);
-int			stop_eat(t_philo *philo, t_info *info);
-int			philo_full(t_philo *philo, t_info *info);
+int			stop_eat(t_philo *philo);
+int			philo_full(t_philo *philo);
 
 //Utils
 void		ft_usleep(int ms);
 long long	get_time(void);
 void		print_message(char *str, t_philo *philo, t_info *info);
-void		delayer(t_philo *philo, t_info *info);
 long		time_dif(t_info *info);
 
 //Functions
@@ -90,6 +85,7 @@ int			ft_atoi(const char *str);
 int			ft_isdigit(int c);
 
 //Dead
-void	am_i_dead(t_philo *philo, t_info *info);
+void		am_i_dead(t_philo *philo, t_info *info);
+int			is_philo_dead(t_info *info);
 
 #endif

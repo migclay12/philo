@@ -1,0 +1,14 @@
+# Ejemplo con límite de comidas
+# Uso: ./philo 3 800 200 200 5
+# Tiempo para morir: 800ms
+# Tiempo para comer: 200ms
+# Tiempo para dormir: 200ms
+# Límite de comidas: 5
+
+3 800 200 200 5
+
+# Descripción:
+# - 3 filósofos con límite de 5 comidas cada uno
+# - El programa se detendrá cuando todos hayan comido 5 veces
+# - Tiempos relajados para evitar muertes prematuras
+# - Perfecto para probar la funcionalidad de conteo de comidas
